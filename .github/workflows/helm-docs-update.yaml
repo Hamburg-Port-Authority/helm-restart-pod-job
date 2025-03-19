@@ -3,19 +3,22 @@ name: Document Helm-Chart
 on:
   push:
     branches:
-      - main
+    - main
 
 jobs:
   generate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.ref }}
-      - name: Run helm-docs
-        uses: losisin/helm-docs-github-action@v1
-        with:
-          git-push: true
-          git-push-user-name: "$GITHUB_ACTOR"
-          git-push-user-email: "${GITHUB_ACTOR}@users.noreply.github.com"
-          git-commit-message: "chore: update Helm documentation"
+    - uses: step-security/harden-runner@446798f8213ac2e75931c1b0769676d927801858 # v2.10.3
+      with:
+        egress-policy: audit
+    - uses: actions/checkout@v4
+      with:
+        ref: ${{ github.event.pull_request.head.ref }}
+    - name: Run helm-docs
+      uses: losisin/helm-docs-github-action@v1
+      with:
+        git-push: true
+        git-push-user-name: "$GITHUB_ACTOR"
+        git-push-user-email: "${GITHUB_ACTOR}@users.noreply.github.com"
+        git-commit-message: "chore: update Helm documentation"

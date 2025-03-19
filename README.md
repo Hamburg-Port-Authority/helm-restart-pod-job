@@ -8,10 +8,11 @@ This Helm chart will deploy a CronJob to restart pods. It will use a specific ti
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| cronJob.resources.limits.cpu | string | `"100m"` |  |
-| cronJob.resources.limits.memory | string | `"128Mi"` |  |
-| cronJob.resources.requests.cpu | string | `"20m"` |  |
-| cronJob.resources.requests.memory | string | `"32Mi"` |  |
+| cronJob.affinity | object | `{}` | Affinity rules influence pod scheduling by specifying preferences or requirements for pod placement. |
+| cronJob.resources.limits.cpu | string | `"100m"` | The amount of CPU is limited to this value. |
+| cronJob.resources.limits.memory | string | `"128Mi"` | The amount of memory is limited to this value. |
+| cronJob.resources.requests.cpu | string | `"20m"` | The minimum amount of CPU that the container is guaranteed. |
+| cronJob.resources.requests.memory | string | `"32Mi"` | This minimum amount of memory that the container is guaranteed. |
 | cronJob.schedule | string | `"0 7 * * *"` | The value of that field follows the (Cron)[https://en.wikipedia.org/wiki/Cron] syntax: |
 | cronJob.securityContext.allowPrivilegeEscalation | bool | `false` | Prevents processes from gaining more privileges than they started with |
 | cronJob.securityContext.capabilities | object | `{"drop":["ALL"]}` | Drops all Linux capabilities to minimize privileges and reduce attack surface |
@@ -20,11 +21,12 @@ This Helm chart will deploy a CronJob to restart pods. It will use a specific ti
 | cronJob.securityContext.runAsUser | int | `1001` | Runs the container with a specific, non-root user ID (1001 in this case) |
 | cronJob.securityContext.seccompProfile | object | `{"type":"RuntimeDefault"}` | Uses the default Seccomp profile provided by the container runtime for syscall restrictions |
 | cronJob.successfulJobsHistoryLimit | int | `1` | This field specifies the number of successful finished jobs to keep. The default value is 3. Setting this field to 0 will not keep any successful jobs. |
+| cronJob.tolerations | object | `{}` | Toleration rules allow pods to be scheduled onto nodes with taints. |
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` | This sets the pull policy for images. |
 | image.repository | string | `"ghcr.io/Hamburg-Port-Authority/restart-pod-job"` | This sets the container image name and location to pull from. |
 | nameOverride | string | `""` | This is to override the chart name. |
-| serviceAccount | object | `{"annotations":{},"automount":true,"create":true,"name":""}` | This is to override the chart version. |
+| serviceAccount.annotations | object | `{}` |  |
 | serviceAccount.automount | bool | `true` | Automatically mount a ServiceAccount's API credentials |
 | serviceAccount.create | bool | `true` | Specifies whether a service account should be created |
 | serviceAccount.name | string | `""` | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |

@@ -4,31 +4,30 @@
 
 image:
   # -- This sets the container image name and location to pull from.
-  repository: ghcr.io/Hamburg-Port-Authority/restart-pod-job
+  repository: ghcr.io/stevedetm/restart-pod-job # @schema pattern: ^[a-z0-9./-]+$
   # -- This sets the pull policy for images.
   pullPolicy: IfNotPresent # @schema enum: [IfNotPresent, Always, Never]
 
 # -- This is to override the chart name.
-nameOverride: ""
-fullnameOverride: ""
+nameOverride: '' # @schema minLength:3 required:false
+fullnameOverride: '' # @schema minLength:3 required:false
 
-# -- This is to override the chart version.
 serviceAccount:
   # -- Specifies whether a service account should be created
   create: true
   # -- Automatically mount a ServiceAccount's API credentials
   automount: true
   # Annotations to add to the service account
-  annotations: {}
+  annotations: {} # @schema item: object
   # -- The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
-  name: ""
+  name: ''
 
 cronJob:
   # -- This field specifies the number of successful finished jobs to keep. The default value is 3. Setting this field to 0 will not keep any successful jobs.
   successfulJobsHistoryLimit: 1
-  # -- The value of that field follows the (Cron)[https://en.wikipedia.org/wiki/Cron] syntax:
-  schedule: "0 7 * * *"
+  # -- The value of that field follows the Cron syntax:
+  schedule: '0 7 * * *'
   # This field specifies the security context for the container. This allows you to run the container as a non-root user. More information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
   securityContext:
     # -- Drops all Linux capabilities to minimize privileges and reduce attack surface
@@ -40,7 +39,7 @@ cronJob:
     # -- Ensures that the container does not run as the root user
     runAsNonRoot: true
     # -- Runs the container with a specific, non-root user ID (1001 in this case)
-    runAsUser: 1001
+    runAsUser: 1001 # @schema minimum:1 maximum:65535
     # -- Prevents processes from gaining more privileges than they started with
     allowPrivilegeEscalation: false
     # -- Uses the default Seccomp profile provided by the container runtime for syscall restrictions
@@ -50,13 +49,17 @@ cronJob:
   # Resource requests and limits
   resources:
     requests:
-      memory: "32Mi"
-      cpu: "20m"
+      # -- This minimum amount of memory that the container is guaranteed.
+      memory: '32Mi'
+      # -- The minimum amount of CPU that the container is guaranteed.
+      cpu: '20m'
     limits:
-      memory: "128Mi"
-      cpu: "100m"
-  
-  # Affinity rules
+      # -- The amount of memory is limited to this value.
+      memory: '128Mi'
+      # -- The amount of CPU is limited to this value.
+      cpu: '100m'
+
+  # -- Affinity rules influence pod scheduling by specifying preferences or requirements for pod placement.
   # affinity:
   #   nodeAffinity:
   #     requiredDuringSchedulingIgnoredDuringExecution:
@@ -76,7 +79,7 @@ cronJob:
   #           - myapp
   #       topologyKey: "kubernetes.io/hostname"
 
-  # Toleration rules
+  # -- Toleration rules allow pods to be scheduled onto nodes with taints.
   # tolerations: 
   #   - key: "nodetype"
   #     operator: "Equal"

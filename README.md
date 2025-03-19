@@ -22,7 +22,7 @@ This Helm chart will deploy a CronJob to restart pods. It will use a specific ti
 | cronJob.successfulJobsHistoryLimit | int | `1` | This field specifies the number of successful finished jobs to keep. The default value is 3. Setting this field to 0 will not keep any successful jobs. |
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` | This sets the pull policy for images. |
-| image.repository | string | `"ghcr.io/stevedetm/restart-pod-job"` | This sets the container image name and location to pull from. |
+| image.repository | string | `"ghcr.io/hamburg-port-authority/restart-pod-job"` | This sets the container image name and location to pull from. |
 | nameOverride | string | `""` | This is to override the chart name. |
 | serviceAccount.annotations | object | `{}` |  |
 | serviceAccount.automount | bool | `true` | Automatically mount a ServiceAccount's API credentials |
